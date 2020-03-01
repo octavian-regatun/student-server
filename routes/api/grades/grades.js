@@ -27,7 +27,7 @@ module.exports = app => {
   });
   app.post("/api/grades/:studentId", (req, res, next) => {
     let { body } = req;
-    let { grades } = body;
+
     Grades.find({ studentId: req.params.studentId }, (err, foundGrades) => {
       if (err) {
         res.send({
@@ -41,7 +41,7 @@ module.exports = app => {
         let newGrades = new Grades();
 
         newGrades.studentId = req.params.studentId;
-        newGrades.grades = grades;
+        newGrades.grades = body;
 
         newGrades.save((err, response) => {
           if (err) {
@@ -58,7 +58,7 @@ module.exports = app => {
           }
         });
       } else {
-        foundGrades[0].grades = grades;
+        foundGrades[0].grades = body;
 
         foundGrades[0].save((err, response) => {
           if (err) {
